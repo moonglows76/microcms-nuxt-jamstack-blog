@@ -6,6 +6,9 @@
     <p class="publishedAt">
       {{ publishedAt }}
     </p>
+    <p class="category">
+      {{ category && category.name }}
+    </p>
     <div class="post" v-html="body" />
   </main>
 </template>
@@ -14,9 +17,11 @@
 import axios from 'axios'
 
 export default {
-  async asyncData ({ params }) {
+  async asyncData ({ params, query }) {
     const { data } = await axios.get(
-      `https://moonglows76-blog.microcms.io/api/v1/blog/${params.slug}`,
+      `https://moonglows76-blog.microcms.io/api/v1/blog/${params.slug}${
+        query.draftKey !== undefined ? `?draftKey=${query.draftKey}` : ''
+      }`,
       {
         headers: { 'X-API-KEY': '2e9ee6a0-1ebb-49ff-baeb-d1ccb3eff57e' }
       }
